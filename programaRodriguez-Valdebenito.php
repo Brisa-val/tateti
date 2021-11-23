@@ -133,6 +133,7 @@ function datosDelJuego($juegos, $juegoIndice)
 */
 function agregarJuego ()
 {  
+
 }
 
 
