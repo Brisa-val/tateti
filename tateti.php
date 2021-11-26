@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * hola mundo 
+ */
 
 /*
 La librería tateti posee la definición de constantes y funciones necesarias
