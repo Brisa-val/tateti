@@ -5,7 +5,7 @@ include_once("tateti.php");
 /***** DATOS DE LOS INTEGRANTES *******/
 /**************************************/
 
-/* Apellido, Nombre. Legajo. Carrera. mail. Usuario Github */
+/* Rodriguez, Nicolas. Legajo: FAI-3704. Carrera: Tecnicatura Universitaria en Desarrollo Web. niko.0493@gmail.com. Usuario Github: nicolas-rodrigue */
 /* ... COMPLETAR ... */ 
 
 
@@ -14,7 +14,7 @@ include_once("tateti.php");
 /**************************************/
 
 /**
- * (punto 1)
+ * Explicacion 3- Punto 1
  * Se genera 10 juegos resultados 
  * @return array 
  */
@@ -36,9 +36,9 @@ function cargarJuegos()
 }
 
 /** 
- * (punto 2)
- * funcion que se encarga de:
- * - mostrar el menu general del juego.
+ * Explicacion 3- Punto 1
+ * Funcion que se encarga de:
+ * - Mostrar el menu general del juego.
  * - leer un valor de teclado y verificar si este es un valor valido para el manu.
  * @return int 
  */
@@ -60,7 +60,7 @@ function seleccionarOpcion()
 }
 
 /**
- * (punto 3)
+ * Explicacion 3- Punto 3
  * Obtiene un numero valido entre 1 y 7 para el menu general.
  * @return int
  */
@@ -96,7 +96,7 @@ function obtenerNumeroValidoMenu()
 }
 
 /**
- * (punto 4)
+ * Explicacion 3- Punto 4
  * Se imprime por pantalla los datos de un juego
  * @param $juegos: array
  * @param $juegoIndice : int
@@ -127,15 +127,21 @@ function datosDelJuego($juegos, $juegoIndice)
 }
 
 /**
- *(punto5)
-*modificada al agregarse el nuevo juego
-* @return int
-*/
-function agregarJuego ()
-{  
+ * Explicacion 3- Punto 5
+ * - Funcion que tiene como entrada colección de juegos y un juego
+ * - Retorna la colección modificada
 
+ * @param array $coleccionDeJuegos
+ * @param array $juegoNuevo
+ * @return array
+ */
+function agregarJuego($coleccionDeJuegos, $juegoNuevo)
+{
+    // entero $columnas
+    $columnas = count($coleccionDeJuegos);
+    $coleccionDeJuegos[$columnas] = $juegoNuevo;
+    return $coleccionDeJuegos;
 }
-
 
 /**
 * (punto6)
@@ -145,7 +151,7 @@ function agregarJuego ()
 
 
 /**
- * (PUNTO 7)
+ * 
  * Se obtiene el primer juego ganado de un jugador
  * @param $juegos: arreglo indexado que contiene una estructura asociativa -> [["jugadorCruz" => "", "jugadorCirculo" => "", "puntosCruz" => 0, "puntosCirculo" => 0], n]
  * @param $jugador: String
