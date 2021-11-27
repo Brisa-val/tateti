@@ -130,17 +130,17 @@ function datosDelJuego($juegos, $juegoIndice)
  * Explicacion 3- Punto 5
  * - Funcion que tiene como entrada colección de juegos y un juego
  * - Retorna la colección modificada
+ * @param array $coleccionJuegos
+* @param array $juego 
+* @return array
+*/
 
- * @param array $coleccionDeJuegos
- * @param array $juegoNuevo
- * @return array
- */
-function agregarJuego($coleccionDeJuegos, $juegoNuevo)
-{
-    // entero $columnas
-    $columnas = count($coleccionDeJuegos);
-    $coleccionDeJuegos[$columnas] = $juegoNuevo;
-    return $coleccionDeJuegos;
+function agregarJuego($coleccionJuegos,$juego)
+{  
+    $ultimoDato = count($coleccionJuegos);
+    $coleccionJuegos [$ultimoDato] = $juego;
+
+    return $coleccionJuegos;
 }
 
 /**
@@ -149,6 +149,21 @@ function agregarJuego($coleccionDeJuegos, $juegoNuevo)
 *
 */
 
+function primerJuegoGanado($juegos){
+    echo "Ingrese el nombre del jugador: ";
+    $nombreJugador = strtoupper(trim(fgets(STDIN)));
+    
+    foreach ($juegos as $indice => $juego) {
+        if ($juego["nombreJugadorX"] == $nombreJugador && $juego["puntosObtenidosX"] > $juego["puntosObtenidosO"]){
+            $juegoGanado = $juego;
+        }elseif ($juego["nombreJugadorO"] == $nombreJugador && $juego["puntosObtenidosO"] > $juego["puntosObtenidosX"]) {
+            $juegoGanado = $juego;
+        }else {
+            $juegoGanado = [];
+        }
+    }
+    return $juegoGanado;
+}
 
 /**
  * 
@@ -188,6 +203,61 @@ function indicePrimerJuegoGanado($juegos, $jugador)
  * (punto9)
  */
 
+ /**
+ * (punto10)
+ */
+
+function ordenarPorO($coleccionJuegos,$juegos){
+
+    $cantGanardoresO = 0;
+
+    foreach ($juegos as $indice => $juego) {
+
+        if($juegos[$indice]== "ganador0"){
+
+            $cantGanardoresO = $cantGanardoresO + 1;
+
+            return $cantGanardoresO;
+        }
+    }
+}
+
+ /**
+ * (punto10)
+ */
+function ordenarOAlfabetic($juegosEjemplos){
+
+    $juegosEjemplos = [0,1,2,3,4,5,6,7,8,9];
+    
+    $juego=[];
+
+    foreach($juegosEjemplos as $indice => $valor){
+        if($valor == "jugadorCirculo"){
+            var_dump($indice);
+            var_dump($valor);
+            $juego[$indice] = $valor;
+            sort($juego[$indice]);
+            print_r($juego);
+        }
+        
+    }
+    var_dump($juego);
+}
+
+/**
+*    function resumenJugador($juegos){
+*   echo "ingrese el nombre del jugador: ";
+*    $nombreJugador = strtoupper(trim(fgets(STDIN)));
+*    
+*    foreach ($juegos as $indice => $juego) {
+*        if($juego["nombreJugadorX"] == $nombreJugador || $juego["nombreJugadorO"] == $nombreJugador){
+
+*        }
+*
+*    }
+
+*   }
+ */
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
 /**************************************/
