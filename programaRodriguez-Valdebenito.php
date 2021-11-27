@@ -280,22 +280,18 @@ function ordenarOAlfabetic($juegosEjemplos){
 }
 
 /**
- * function resumenJugador($juegos){
-    echo "ingrese el nombre del jugador: ";
-    $nombreJugador = strtoupper(trim(fgets(STDIN)));
-    $partidosGanados = 0;
-    $partidosPerdidos = 0;
-    $partidosEmpatados = 0;
-    $puntosAcumulados = 0;
+*    function resumenJugador($juegos){
+*   echo "ingrese el nombre del jugador: ";
+*    $nombreJugador = strtoupper(trim(fgets(STDIN)));
+*    
+*    foreach ($juegos as $indice => $juego) {
+*        if($juego["nombreJugadorX"] == $nombreJugador || $juego["nombreJugadorO"] == $nombreJugador){
 
-    foreach ($juegos as $indice => $juego) {
-        if($juego["nombreJugadorX"] == $nombreJugador || $juego["nombreJugadorO"] == $nombreJugador){
+*        }
+*
+*    }
 
-        }
-
-    }
-
-}
+*   }
  */
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
