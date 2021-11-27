@@ -36,7 +36,7 @@ function cargarJuegos()
 }
 
 /** 
- * Explicacion 3- Punto 1
+ * Explicacion 3- Punto 2
  * Funcion que se encarga de:
  * - Mostrar el menu general del juego.
  * - leer un valor de teclado y verificar si este es un valor valido para el manu.
@@ -204,7 +204,6 @@ function indicePrimerJuegoGanado($juegos, $jugador)
  */
 function resumenJugador($listadoJuegos, $nombreDelJugador)
 {
-    //declaro el array asociativo inicial que contendrá el resumen.
     $resumen = [
         "nombre" => "",
         "juegosGanados" => 0,
@@ -212,31 +211,24 @@ function resumenJugador($listadoJuegos, $nombreDelJugador)
         "juegosEmpatados" => 0,
         "puntosAcumulados" => 0
     ];
-    //declaro variables auxiliares para sumatorias y/o conteos
     $auxNombre = "";
     $auxJuegosGanados = 0;
     $auxJuegosPerdidos = 0;
     $auxJuegosEmpatados = 0;
     $auxPuntosAcumulados = 0;
-    //Recorro la colecction de Juegos y acumulo los valores segun nombre jugador.
     $cantColeccionJuegos = count($listadoJuegos);
  
     for ($j = 0; $j < $cantColeccionJuegos; $j++) {
- 
         if ($listadoJuegos[$j]["jugadorCruz"] == $nombreDelJugador) {
             $auxNombre = $nombreDelJugador;
- 
             if ($listadoJuegos[$j]["puntosCruz"] > $listadoJuegos[$j]["puntosCirculo"]) {
-                //cantidad de juegos ganados
                 $auxJuegosGanados = $auxJuegosGanados + 1;
                 $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCruz"];
             }
             if ($listadoJuegos[$j]["puntosCruz"] < $listadoJuegos[$j]["puntosCirculo"]) {
-                //cantidad juegos perdidos
                 $auxJuegosPerdidos = $auxJuegosPerdidos + 1;
             }
             if ($listadoJuegos[$j]["puntosCruz"] == $listadoJuegos[$j]["puntosCirculo"]) {
-                //cantidad juegos empatados
                 $auxJuegosEmpatados = $auxJuegosEmpatados + 1;
                 $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCruz"];
             }
@@ -264,6 +256,14 @@ function resumenJugador($listadoJuegos, $nombreDelJugador)
     $resumen["juegosPerdidos"] = $auxJuegosPerdidos;
     $resumen["juegosEmpatados"] = $auxJuegosEmpatados;
     $resumen["puntosAcumulados"] = $auxPuntosAcumulados;
+
+    echo "****************************** \n";
+    echo "Jugador: ".$resumen["nombre"]."\n";
+    echo "Ganó: ".$resumen["juegosGanados"]." juegos \n";
+    echo "Perdió: ".$resumen["juegosPerdidos"]." juegos \n";
+    echo "Empató: ".$resumen["juegosEmpatados"]." juegos \n";
+    echo "Total de puntos acumulados: ".$resumen["puntosAcumulados"]." puntos \n";
+    echo "****************************** \n";
  
     return $resumen;
 }
@@ -283,6 +283,20 @@ function auxMostrarResumen($resumen){
     echo "Total de puntos acumulados: ".$resumen["puntosAcumulados"]." puntos \n";
     echo "****************************** \n";
 }
+/**
+*    function resumenJugador($juegos){
+*   echo "ingrese el nombre del jugador: ";
+*    $nombreJugador = strtoupper(trim(fgets(STDIN)));
+*    
+*    foreach ($juegos as $indice => $juego) {
+*        if($juego["nombreJugadorX"] == $nombreJugador || $juego["nombreJugadorO"] == $nombreJugador){
+
+*        }
+*
+*    }
+
+*   }
+ */
 
 /**
  * EXPLICACION 3- Punto 8
@@ -368,60 +382,94 @@ function ordenarOAlfabetic($juegosEjemplos){
     var_dump($juego);
 }
 
-/**
-*    function resumenJugador($juegos){
-*   echo "ingrese el nombre del jugador: ";
-*    $nombreJugador = strtoupper(trim(fgets(STDIN)));
-*    
-*    foreach ($juegos as $indice => $juego) {
-*        if($juego["nombreJugadorX"] == $nombreJugador || $juego["nombreJugadorO"] == $nombreJugador){
-
-*        }
-*
-*    }
-
-*   }
- */
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
 /**************************************/
 
 //Declaración de variables:
-
+// int $respuesta, juegoABuscar, jugadorEnPartidas, indiceDelPrimerJuegoGanado, cantJuegosGanados, cantTotalDeJuegos, jugadorExiste
+// float $porcentaje
+// ARRAY nuevoJuego, juegosCargados
+// STRING nombreJugadorABuscar, simbolo, nombre
 
 //Inicialización de variables:
-// variable q almacenera la coleccion de juegos
-$coleccionJuegos = [];
-$juego = ["jugadorCruz" => "", "jugadorCirculo" => "", "puntosCruz" => 0, "puntosCirculo" => 0];
+$juegosCargados= cargarJuegos()
 
 //Proceso:
 
-$juego = jugar();
-//print_r($juego);
-//imprimirResultado($juego);
-
-
-
-/*
 do {
-    $opcion = ...;
-
-    
-    switch ($opcion) {
-        case 1: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
-
+    $respuesta = selectionarOpcion();
+    switch ($respuesta) {
+        case 1:
+            // Ejecutamos las funciones de tateti.php para inciar un juego y guardamos el resultado en el array asociativo $nuevoJuego
+            $nuevoJuego = jugar();
+            // Una vez completado el juego y guardado el resultado lo agregamos a nuestra base de datos donde están todos nuestros juegos
+            $juegosCargados = agregarJuego($juegosCargados, $Juego);
             break;
-        case 2: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
-
+        case 2:
+            // Solicitamos un número de juego y después de validarlo lo buscamos dentro de la lista de juegos.
+            $buscarJuego = obtenerNumeroValidoMenu(1, count($juegosCargados));
+            datosDelJuego($juegosCargados, ($buscarJuego - 1));
             break;
-        case 3: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
-
+        case 3:
+            // Mostramos el primer juego que ganó el jugador que ingresa el usuario.
+            echo "Ingrese el nombre del jugador a buscar: ";
+            // Lo guardamos como lo ingresa el usuario, para mostrarlo de la misma manera mas adelante
+            $buscandoJugador = strtoupper(fgets(STDIN));
+ 
+            // Cuando queremos buscar el jugador lo enviamos a la función en mayúscula ya que
+            // todos los nombres en la base de datos están ingresados en mayúscula.
+            $jugadorEnPartidas = ordenarOAlfabetic($juegosCargados, strtoupper($nombreJugadorABuscar));
+ 
+            // Verificamos si el jugador participó de algun juego según el nombre ingresado
+            if ($jugadorEnPartidas == 1) {
+                $indiceDelPrimerJuegoGanado = indicePrimerJuegoGanado($juegosCargados, strtoupper($nombreJugadorABuscar));
+                if ($indiceDelPrimerJuegoGanado == -1) {
+                    echo "El jugador " . $nombreJugadorABuscar . " no ganó ningún juego\n";
+                }
+                else {
+                    mostrarJuego($juegosCargados, $indiceDelPrimerJuegoGanado);
+                }
+            }
+            else {
+                echo "El jugador " . $nombreJugadorABuscar . " no participó de ningún juego\n";
+            }
+           
             break;
-        
-            //...
+        case 4:
+            // Se le solicita al usuario que elija uno de los símbolos (X o O), y
+            // se muestra qué porcentaje ganó en relación a todos los juegos ganados.
+            $simbolo=validarSimbolo();
+            $cantJuegosGanados=simboloJuegosGanados($listaDeJuegos,$simbolo);
+            $cantTotalDeJuegos=totalJuegosGanados($listaDeJuegos);
+            $porcentaje=($cantJuegosGanados/$cantTotalDeJuegos)*100;
+            echo $simbolo." ganó el ".$porcentaje."% de juegos ganados.\n";
+            break;
+        case 5:
+            // Se le solicita al usuario un nombre de jugador y se muestra en pantalla
+            // un resumen de los juegos ganados, los juegos perdidos, empates y puntos acumulados.
+            echo "Ingrese el nombre de un jugador: ";
+            $nombre = trim(fgets(STDIN));
+ 
+            // Comprobamos si el nombre del jugador ingresado se encuentra en alguno de los juegos almacenados.
+            // Si existe, retorna 1 y sino retorna -1.
+            $jugadorExiste = jugadorJugoConNombre($listaDeJuegos, strtoupper($nombre));
+ 
+            if ($jugadorExiste == 1) {
+                auxMostrarResumen(resumenJugador($listaDeJuegos, strtoupper($nombre)));
+            }
+            else {
+                echo "El jugador ". $nombre . " no jugó ninguna partida.\n";
+            }
+            break;
+        case 6:
+            // Se mostrará en pantalla la estructura ordenada alfabéticamente por jugador O,
+            // utilizando la función predefinida uasort de php, y la función predefinida print_r.
+            juegosOrdenadosParaJugadorO($listaDeJuegos);
+            break;
+         case 7:
+            // Muestra un cartel de finalizacion de programa
+            echo "FINALIZO EL PROGRAMA.";
+            break;
     }
-} while ($opcion != X);
-*/
+} while ($respuesta != 7);
