@@ -166,7 +166,7 @@ function primerJuegoGanado($juegos){
 }
 
 /**
- * 
+ * punto 6
  * Se obtiene el primer juego ganado de un jugador
  * @param $juegos: arreglo indexado que contiene una estructura asociativa -> [["jugadorCruz" => "", "jugadorCirculo" => "", "puntosCruz" => 0, "puntosCirculo" => 0], n]
  * @param $jugador: String
@@ -194,17 +194,141 @@ function indicePrimerJuegoGanado($juegos, $jugador)
 }
 
 /**
- * (punto8)
+ * EXPLICACION 3- Punto 7
+ * Dada una coleccion de juegos y el nombre de un jugador, retorna el
+ * resumen del jugador utilizando la estructura b) de la EXPLICACION 2.
+ * @param array $listadoJuegos
+ * @param array $nombreDelJugador
+ * @return array
  *
  */
-
+function resumenJugador($listadoJuegos, $nombreDelJugador)
+{
+    //declaro el array asociativo inicial que contendrá el resumen.
+    $resumen = [
+        "nombre" => "",
+        "juegosGanados" => 0,
+        "juegosPerdidos" => 0,
+        "juegosEmpatados" => 0,
+        "puntosAcumulados" => 0
+    ];
+    //declaro variables auxiliares para sumatorias y/o conteos
+    $auxNombre = "";
+    $auxJuegosGanados = 0;
+    $auxJuegosPerdidos = 0;
+    $auxJuegosEmpatados = 0;
+    $auxPuntosAcumulados = 0;
+    //Recorro la colecction de Juegos y acumulo los valores segun nombre jugador.
+    $cantColeccionJuegos = count($listadoJuegos);
+ 
+    for ($j = 0; $j < $cantColeccionJuegos; $j++) {
+ 
+        if ($listadoJuegos[$j]["jugadorCruz"] == $nombreDelJugador) {
+            $auxNombre = $nombreDelJugador;
+ 
+            if ($listadoJuegos[$j]["puntosCruz"] > $listadoJuegos[$j]["puntosCirculo"]) {
+                //cantidad de juegos ganados
+                $auxJuegosGanados = $auxJuegosGanados + 1;
+                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCruz"];
+            }
+            if ($listadoJuegos[$j]["puntosCruz"] < $listadoJuegos[$j]["puntosCirculo"]) {
+                //cantidad juegos perdidos
+                $auxJuegosPerdidos = $auxJuegosPerdidos + 1;
+            }
+            if ($listadoJuegos[$j]["puntosCruz"] == $listadoJuegos[$j]["puntosCirculo"]) {
+                //cantidad juegos empatados
+                $auxJuegosEmpatados = $auxJuegosEmpatados + 1;
+                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCruz"];
+            }
+        }
+ 
+        if ($listadoJuegos[$j]["jugadorCirculo"] == $nombreDelJugador) {
+            $auxNombre = $nombreDelJugador;
+ 
+            if ($listadoJuegos[$j]["puntosCruz"] < $listadoJuegos[$j]["puntosCirculo"]) {
+                $auxJuegosGanados = $auxJuegosGanados + 1;
+                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCirculo"];
+            }
+            if ($listadoJuegos[$j]["puntosCruz"] > $listadoJuegos[$j]["puntosCirculo"]) {
+                $auxJuegosPerdidos = $auxJuegosPerdidos + 1;
+            }
+            if ($listadoJuegos[$j]["puntosCruz"] == $listadoJuegos[$j]["puntosCirculo"]) {
+                $auxJuegosEmpatados = $auxJuegosEmpatados + 1;
+                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCirculo"];
+            }
+        }
+    }
+ 
+    $resumen["nombre"] = $auxNombre;
+    $resumen["juegosGanados"] = $auxJuegosGanados;
+    $resumen["juegosPerdidos"] = $auxJuegosPerdidos;
+    $resumen["juegosEmpatados"] = $auxJuegosEmpatados;
+    $resumen["puntosAcumulados"] = $auxPuntosAcumulados;
+ 
+    return $resumen;
+}
+ 
+/**
+ * EXPLICACION 3- Punto 7
+ * Metodo que muestra el resumen de un jugador, recibe un resumen y lo muestra por pantalla ~7
+ * @param array $resumen
+ *
+ */
+function auxMostrarResumen($resumen){
+    echo "****************************** \n";
+    echo "Jugador: ".$resumen["nombre"]."\n";
+    echo "Ganó: ".$resumen["juegosGanados"]." juegos \n";
+    echo "Perdió: ".$resumen["juegosPerdidos"]." juegos \n";
+    echo "Empató: ".$resumen["juegosEmpatados"]." juegos \n";
+    echo "Total de puntos acumulados: ".$resumen["puntosAcumulados"]." puntos \n";
+    echo "****************************** \n";
+}
 
 /**
- * (punto9)
+ * EXPLICACION 3- Punto 8
+ * Funcion que solicita al usuario el símbolo X o O y en caso correcto lo retorna
+ * @return string
  */
+ 
+function validarSimbolo()
+{
+    do {
+        echo "Ingrese un símbolo X o O: ";
+        $simboloValidar = strtoupper(trim(fgets(STDIN)));
+        if ($simboloValidar != "X" && $simboloValidar != "O") {
+            echo "Símbolo inválido\n";
+        }
+    } while ($simboloValidar != "X" && $simboloValidar != "O");
+    return ($simboloValidar);
+}
+
+/**
+ * EXPLICACION 3- Punto 9
+ * Funcion que recibe una colección de juegos y retorna la cantidad de juegos ganados
+ * @param array $colecJuegos
+ * @return int
+ */
+ 
+function totalJuegosGanados($colecJuegos)
+{
+ 
+    // Inicializamos nuestra variable contadora que nos dirá la cantidad total de partidas ganadas, independiente de que jugador haya ganado.
+ 
+    $cantidadDeJuegosGanadosTotales = 0;
+ 
+    // Hay varias formas de resolverlo, poniendo que los puntos de uno son mayor al otro o viceversa.
+    // Diferenciar el puntaje de 1 es lo mas fácil y optimizado para saber que uno de los 2 ganó.
+ 
+    for ($k = 0; $k < count($colecJuegos); $k++) {
+        if ($colecJuegos[$k]["puntosCruz"] != 1) {
+            $cantidadDeJuegosGanadosTotales++;
+        }
+    }
+    return ($cantidadDeJuegosGanadosTotales);
+}
 
  /**
- * (punto10)
+ * Explicacion 3- Punto 10
  */
 
 function ordenarPorO($coleccionJuegos,$juegos){
@@ -223,7 +347,7 @@ function ordenarPorO($coleccionJuegos,$juegos){
 }
 
  /**
- * (punto10)
+ * Explicacion 3- Punto 11
  */
 function ordenarOAlfabetic($juegosEjemplos){
 
