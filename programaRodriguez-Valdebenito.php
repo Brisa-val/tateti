@@ -393,7 +393,7 @@ function ordenarOAlfabetic($juegosEjemplos){
 // STRING nombreJugadorABuscar, simbolo, nombre
 
 //Inicialización de variables:
-$juegosCargados= cargarJuegos()
+$juegosCargados= cargarJuegos();
 
 //Proceso:
 
@@ -461,7 +461,11 @@ do {
             break;
          case 7:
             // Muestra un cartel de finalizacion de programa
-            echo "FINALIZO EL PROGRAMA.";
+            echo "
+            ▄▀▀ ▄▀▀▄ ▄▀▀▄ █▀▄ . █░░ █░░█ ▄▀▀ █░█
+            █░█ █░░█ █░░█ █░█ . █░░ █░░█ █░░ █▀▄
+            ░▀▀ ░▀▀░ ░▀▀░ ▀▀░ . ▀▀▀ ░▀▀░ ░▀▀ ▀░▀
+            ";
             break;
     }
 } while ($respuesta != 7);
