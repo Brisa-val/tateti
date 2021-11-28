@@ -166,7 +166,7 @@ function primerJuegoGanado($juegos){
 }
 
 /**
- * punto 6
+ * Punto 6
  * Se obtiene el primer juego ganado de un jugador
  * @param $juegos: arreglo indexado que contiene una estructura asociativa -> [["jugadorCruz" => "", "jugadorCirculo" => "", "puntosCruz" => 0, "puntosCirculo" => 0], n]
  * @param $jugador: String
@@ -323,7 +323,7 @@ function validarSimbolo()
  * @return int
  */
  
-function totalJuegosGanados($colecJuegos)
+function juegosGanados($colecJuegos)
 {
  
     // Inicializamos nuestra variable contadora que nos dirá la cantidad total de partidas ganadas, independiente de que jugador haya ganado.
@@ -412,37 +412,29 @@ do {
             datosDelJuego($juegosCargados, ($buscarJuego - 1));
             break;
         case 3:
-            // Mostramos el primer juego que ganó el jugador que ingresa el usuario.
             echo "Ingrese el nombre del jugador a buscar: ";
-            // Lo guardamos como lo ingresa el usuario, para mostrarlo de la misma manera mas adelante
             $buscandoJugador = strtoupper(fgets(STDIN));
- 
-            // Cuando queremos buscar el jugador lo enviamos a la función en mayúscula ya que
-            // todos los nombres en la base de datos están ingresados en mayúscula.
             $jugadorEnPartidas = ordenarOAlfabetic($juegosCargados, strtoupper($nombreJugadorABuscar));
  
-            // Verificamos si el jugador participó de algun juego según el nombre ingresado
             if ($jugadorEnPartidas == 1) {
-                $indiceDelPrimerJuegoGanado = indicePrimerJuegoGanado($juegosCargados, strtoupper($nombreJugadorABuscar));
-                if ($indiceDelPrimerJuegoGanado == -1) {
-                    echo "El jugador " . $nombreJugadorABuscar . " no ganó ningún juego\n";
+                $primerJuegoGanado = indicePrimerJuegoGanado($juegosCargados, $buscandoJugador);
+                if ($primerJuegoGanado == -1) {
+                    echo "El jugador " . $buscandoJugador . " no ganó ningún juego\n";
                 }
                 else {
-                    mostrarJuego($juegosCargados, $indiceDelPrimerJuegoGanado);
+                    datosDelJuego($juegosCargados, $primerJuegoGanado);
                 }
             }
             else {
-                echo "El jugador " . $nombreJugadorABuscar . " no participó de ningún juego\n";
+                echo "El jugador " . $buscandoJugador . " no participó de ningún juego\n";
             }
            
             break;
         case 4:
-            // Se le solicita al usuario que elija uno de los símbolos (X o O), y
-            // se muestra qué porcentaje ganó en relación a todos los juegos ganados.
             $simbolo=validarSimbolo();
-            $cantJuegosGanados=simboloJuegosGanados($listaDeJuegos,$simbolo);
-            $cantTotalDeJuegos=totalJuegosGanados($listaDeJuegos);
-            $porcentaje=($cantJuegosGanados/$cantTotalDeJuegos)*100;
+            $juegosGanados=ordenarPorO($juegosCargados,$simbolo);
+            $totalDeJuegos=juegosGanados($juegosCargados);
+            $porcentaje=($juegosGanados/$totalDeJuegos)*100;
             echo $simbolo." ganó el ".$porcentaje."% de juegos ganados.\n";
             break;
         case 5:
