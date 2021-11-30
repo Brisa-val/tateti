@@ -351,7 +351,7 @@ do {
     switch ($respuesta) {
         case 1:
             $nuevoJuego = jugar();
-            $juegosCargados = agregarJuego($juegosCargados, $Juego);
+            $juegosCargados = agregarJuego($juegosCargados, $juego);
             break;
         case 2:
             $buscarJuego = obtenerNumeroValidoMenu();
