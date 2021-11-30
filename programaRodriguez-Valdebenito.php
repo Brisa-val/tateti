@@ -276,7 +276,6 @@ function validarSimbolo()
     } while ($simboloValidar != "X" && $simboloValidar != "O");
     return ($simboloValidar);
 }
-
 /**
  * EXPLICACION 3- Punto 9
  * -Funcion que recibe una colección de juegos y retorna la cantidad de juegos ganados
@@ -404,4 +403,4 @@ do {
             ";
             break;
     };
-} while ($respuesta != 7);
+} while ($respuesta!=7);
