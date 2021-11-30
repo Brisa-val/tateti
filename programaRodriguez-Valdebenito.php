@@ -45,7 +45,6 @@ function cargarJuegos()
 function seleccionarOpcion()
 {
     // mostrando el menu
-    do{ 
     echo "Menú de opciones: \n";
     echo "   1) Jugar al tateti  \n";
     echo "   2) Mostrar un juego \n";
@@ -54,15 +53,11 @@ function seleccionarOpcion()
     echo "   5) Mostrar resumen de Jugador\n";
     echo "   6) Mostrar listado de juegos Ordenado por jugador O\n";
     echo "   7) Salir\n";
-    echo "Ingrese opcion: ";
-    // obteniendo un valor valido de las opciones del menu
-    $opcion = trim(fgets(STDIN));
-        if (!(is_int($opcion)) && !($opcion >= 1 && $opcion <= 7)) {
-            echo "Opcion NO Valida." . "\n";
-        }
-    } while (!(is_int($opcion)) && !($opcion >= 1 && $opcion <= 7));
-    return $opcion;
+      // obteniendo un valor valido de las opciones del menu
+      $numero = obtenerNumeroValidoMenu();
+      return $numero;
 }
+
 
 /**
  * Explicacion 3- Punto 3
@@ -76,7 +71,7 @@ function obtenerNumeroValidoMenu()
     //ciclo iteractivo que se repetira hasta que el usuario ingrese un valor valido
     do
     {
-        echo "ingrese un numero: ";
+        echo "ingrese opcion: ";
         $valor = trim(fgets(STDIN));
         $isNumber = is_numeric($valor);
         if ($isNumber)
@@ -346,61 +341,63 @@ $juegosCargados= cargarJuegos();
 
 //Proceso:
 
-do {
-    $respuesta = seleccionarOpcion();
-    switch ($respuesta) {
-        case 1:
-            $nuevoJuego = jugar();
-            $juegosCargados = agregarJuego($juegosCargados, $juego);
-            break;
-        case 2:
-            $buscarJuego = obtenerNumeroValidoMenu();
-            datosDelJuego($juegosCargados, ($buscarJuego - 1));
-            break;
-        case 3:
-            echo "Ingrese el nombre del jugador a buscar: ";
-            $buscarJugador = trim(fgets(STDIN));
-            $jugadorEnPartidas = jugadorJugoConNombre($juegosCargados, strtoupper($buscarJugador));
-            if ($jugadorEnPartidas == 1) {
-                $primerJuegoGanado = indicePrimerJuegoGanado($juegosCargados, strtoupper($nombreJugadorABuscar));
-                if ($primerJuegoGanado == -1) {
-                    echo "El jugador " . $buscarJugador . " no ganó ningún juego\n";
+if ($respuesta == true) {
+    do {
+        $respuesta = seleccionarOpcion();
+        switch ($respuesta) {
+            case 1:
+                $juegar = jugar();
+                $juegosCargados = agregarJuego($juegosCargados, $jugar);
+                break;
+            case 2:
+                $buscarJuego = obtenerNumeroValidoMenu();
+                datosDelJuego($juegosCargados, ($buscarJuego - 1));
+                break;
+            case 3:
+                echo "Ingrese el nombre del jugador a buscar: ";
+                $buscarJugador = trim(fgets(STDIN));
+                $jugadorEnPartidas = jugadorJugoConNombre($juegosCargados, strtoupper($buscarJugador));
+                if ($jugadorEnPartidas == 1) {
+                    $primerJuegoGanado = indicePrimerJuegoGanado($juegosCargados, strtoupper($nombreJugadorABuscar));
+                    if ($primerJuegoGanado == -1) {
+                        echo "El jugador " . $buscarJugador . " no ganó ningún juego\n";
+                    }else {
+                        datosDelJuego($juegosCargados, $primerJuegoGanado);
+                    }
                 }else {
-                    datosDelJuego($juegosCargados, $primerJuegoGanado);
+                    echo "El jugador " . $buscarJugador . " no participó de ningún juego\n";
                 }
-            }else {
-                echo "El jugador " . $buscarJugador . " no participó de ningún juego\n";
-            }
-           
-            break;
-        case 4:
-            $simbolo=validarSimbolo();
-            $juegosGanados=simboloJuegosGanados($juegosCargados,$simbolo);
-            $totalDeJuegos=juegosGanados($juegosCargados);
-            $porcentaje=($juegosGanados/$totalDeJuegos)*100;
-            echo $simbolo." ganó el ".$porcentaje."% de juegos ganados.\n";
-            break;
-        case 5:
-            echo "Ingrese el nombre de un jugador: ";
-            $nombre = trim(fgets(STDIN));
-            $jugadorExiste = jugadorJugoConNombre($juegosCargados, strtoupper($nombre));
- 
-            if ($jugadorExiste == 1) {
-                resumenJugador($juegosCargados, strtoupper($nombre));
-            }else {
-                echo "El jugador ". $nombre . " no jugó ninguna partida.\n";
-            }
-            break;
-        case 6:
-            ordenarJugadorO($juegosCargados);
-            break;
-         case 7:
-            echo "
+            
+                break;
+            case 4:
+                $simbolo=validarSimbolo();
+                $juegosGanados=simboloJuegosGanados($juegosCargados,$simbolo);
+                $totalDeJuegos=juegosGanados($juegosCargados);
+                $porcentaje=($juegosGanados/$totalDeJuegos)*100;
+                echo $simbolo." ganó el ".$porcentaje."% de juegos ganados.\n";
+                break;
+            case 5:
+                echo "Ingrese el nombre de un jugador: ";
+                $nombre = trim(fgets(STDIN));
+                $jugadorExiste = jugadorJugoConNombre($juegosCargados, strtoupper($nombre));
+    
+                if ($jugadorExiste == 1) {
+                    resumenJugador($juegosCargados, strtoupper($nombre));
+                }else {
+                    echo "El jugador ". $nombre . " no jugó ninguna partida.\n";
+                }
+                break;
+            case 6:
+                ordenarJugadorO($juegosCargados);
+                break;
+            case 7:
+                echo "
 
-            █▀▀ █▄░█ █▀▄ . ▄▀▀▄ █▀▀ . ▄▀▀ ▄▀▄ ██▄██ █▀▀
-            █▀▀ █▀██ █░█ . █░░█ █▀▀ . █░█ █▄█ █░▀░█ █▀▀
-            ▀▀▀ ▀░░▀ ▀▀░ . ░▀▀░ ▀░░ . ░▀▀ ▀░▀ ▀░░░▀ ▀▀▀
-            ";
-            break;
-    };
-} while ($respuesta!=7);
+                █▀▀ █▄░█ █▀▄ . ▄▀▀▄ █▀▀ . ▄▀▀ ▄▀▄ ██▄██ █▀▀
+                █▀▀ █▀██ █░█ . █░░█ █▀▀ . █░█ █▄█ █░▀░█ █▀▀
+                ▀▀▀ ▀░░▀ ▀▀░ . ░▀▀░ ▀░░ . ░▀▀ ▀░▀ ▀░░░▀ ▀▀▀
+                ";
+                break;
+        };
+    } while ($respuesta = obtenerNumeroValidoMenu());
+}
