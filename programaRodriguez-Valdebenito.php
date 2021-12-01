@@ -340,8 +340,8 @@ function ordenarJugadorO($coleccion){
 $juegosCargados= cargarJuegos();
 
 //Proceso:
-
-if ($respuesta == true) {
+$pepito = obtenerNumeroValidoMenu();
+if ($pepito == true) {
     do {
         $respuesta = seleccionarOpcion();
         switch ($respuesta) {
