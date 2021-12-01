@@ -10,10 +10,7 @@ include_once("tateti.php");
 <<<<<<< Updated upstream:programaSaltoRodriguezValdebenito.php
 /* Valdebenito, brisa. Legajo: FAI-3781. Carrera: Tecnicatura Universitaria en Desarrollo Web. brisavaldebenito400@gmail.com . Usuario Github: Brisa-val */ 
 
-=======
-/* Valdebvenito, brisa. Legajo: FAI-3781. Carrera: Tecnicatura Universitaria en Desarrollo Web. brisavaldebenito400@gmail.com . Usuario Github: Brisa-val */ 
-/*Saltos¿, Tomas. Legajo: .Carrera: Tecnicatura Universitaria en Desarrollo Web. */
->>>>>>> Stashed changes:programaRodriguez-Valdebenito.php
+
 
 /**************************************/
 /***** DEFINICION DE FUNCIONES ********/
