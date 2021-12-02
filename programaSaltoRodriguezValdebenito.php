@@ -64,6 +64,7 @@ function seleccionarOpcion()
 }
 
 /**
+ * Explicacion 3- Punto 3
  * Solicita al usuario un número en el rango [$min,$max]
  * @param int $min
  * @param int $max
@@ -133,8 +134,8 @@ function indicePrimerJuegoGanado($juegos, $jugador)
 {
     $cantidadJuegos = count($juegos);
     $jugadorEncontrado = -1;
-    for ($x=0; $x < $cantidadJuegos; $x++) {
-        if ($juegos[$x]["jugadorCruz"] == $jugador || $juegos[$x]["jugadorCirculo"] == $jugador) {
+    for ($a=0; $a < $cantidadJuegos; $a++) {
+        if ($juegos[$a]["jugadorCruz"] == $jugador || $juegos[$a]["jugadorCirculo"] == $jugador) {
             $jugadorEncontrado = 1;
         }
     }
@@ -160,50 +161,50 @@ function resumen($listadoJuegos, $nombreDelJugador)
         "puntosAcumulados" => 0
     ];
     $auxNombre = "";
-    $auxJuegosGanados = 0;
-    $auxJuegosPerdidos = 0;
+    $ganados = 0;
+    $perdidos = 0;
     $auxJuegosEmpatados = 0;
-    $auxPuntosAcumulados = 0;
+    $untosAcumulados = 0;
     $cantColeccionJuegos = count($listadoJuegos);
  
-    for ($j = 0; $j < $cantColeccionJuegos; $j++) {
-        if ($listadoJuegos[$j]["jugadorCruz"] == $nombreDelJugador) {
+    for ($b = 0; $b < $cantColeccionJuegos; $b++) {
+        if ($listadoJuegos[$b]["jugadorCruz"] == $nombreDelJugador) {
             $auxNombre = $nombreDelJugador;
-            if ($listadoJuegos[$j]["puntosCruz"] > $listadoJuegos[$j]["puntosCirculo"]) {
-                $auxJuegosGanados = $auxJuegosGanados + 1;
-                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCruz"];
+            if ($listadoJuegos[$b]["puntosCruz"] > $listadoJuegos[$b]["puntosCirculo"]) {
+                $ganados = $ganados + 1;
+                $puntosAcumulados = $puntosAcumulados + $listadoJuegos[$b]["puntosCruz"];
             }
-            if ($listadoJuegos[$j]["puntosCruz"] < $listadoJuegos[$j]["puntosCirculo"]) {
-                $auxJuegosPerdidos = $auxJuegosPerdidos + 1;
+            if ($listadoJuegos[$b]["puntosCruz"] < $listadoJuegos[$b]["puntosCirculo"]) {
+                $perdidos = $perdidos + 1;
             }
-            if ($listadoJuegos[$j]["puntosCruz"] == $listadoJuegos[$j]["puntosCirculo"]) {
-                $auxJuegosEmpatados = $auxJuegosEmpatados + 1;
-                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCruz"];
+            if ($listadoJuegos[$b]["puntosCruz"] == $listadoJuegos[$b]["puntosCirculo"]) {
+                $empatados = $empatados + 1;
+                $puntosAcumulados = $puntosAcumulados + $listadoJuegos[$b]["puntosCruz"];
             }
         }
  
-        if ($listadoJuegos[$j]["jugadorCirculo"] == $nombreDelJugador) {
+        if ($listadoJuegos[$b]["jugadorCirculo"] == $nombreDelJugador) {
             $auxNombre = $nombreDelJugador;
  
-            if ($listadoJuegos[$j]["puntosCruz"] < $listadoJuegos[$j]["puntosCirculo"]) {
+            if ($listadoJuegos[$b]["puntosCruz"] < $listadoJuegos[$b]["puntosCirculo"]) {
                 $auxJuegosGanados = $auxJuegosGanados + 1;
-                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCirculo"];
+                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$b]["puntosCirculo"];
             }
-            if ($listadoJuegos[$j]["puntosCruz"] > $listadoJuegos[$j]["puntosCirculo"]) {
+            if ($listadoJuegos[$b]["puntosCruz"] > $listadoJuegos[$b]["puntosCirculo"]) {
                 $auxJuegosPerdidos = $auxJuegosPerdidos + 1;
             }
-            if ($listadoJuegos[$j]["puntosCruz"] == $listadoJuegos[$j]["puntosCirculo"]) {
+            if ($listadoJuegos[$b]["puntosCruz"] == $listadoJuegos[$b]["puntosCirculo"]) {
                 $auxJuegosEmpatados = $auxJuegosEmpatados + 1;
-                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$j]["puntosCirculo"];
+                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$b]["puntosCirculo"];
             }
         }
     }
  
     $resumen["nombre"] = $auxNombre;
-    $resumen["juegosGanados"] = $auxJuegosGanados;
-    $resumen["juegosPerdidos"] = $auxJuegosPerdidos;
-    $resumen["juegosEmpatados"] = $auxJuegosEmpatados;
-    $resumen["puntosAcumulados"] = $auxPuntosAcumulados;
+    $resumen["juegosGanados"] = $ganados;
+    $resumen["juegosPerdidos"] = $perdidos;
+    $resumen["juegosEmpatados"] = $empatados;
+    $resumen["puntosAcumulados"] = $puntosAcumulados;
 
     echo "****************************** \n";
     echo "Jugador: ".$resumen["nombre"]."\n";
@@ -212,7 +213,7 @@ function resumen($listadoJuegos, $nombreDelJugador)
     echo "Empató: ".$resumen["juegosEmpatados"]." juegos \n";
     echo "Total de puntos acumulados: ".$resumen["puntosAcumulados"]." puntos \n";
     echo "****************************** \n";
- 
+
     return $resumen;
 }
 
@@ -225,12 +226,12 @@ function resumen($listadoJuegos, $nombreDelJugador)
 function validarSimbolo(){
     do {
         echo "Ingrese un símbolo X o O: ";
-        $simboloValidar = strtoupper(trim(fgets(STDIN)));
-        if ($simboloValidar != "X" && $simboloValidar != "O") {
+        $validar = strtoupper(trim(fgets(STDIN)));
+        if ($simboloValidar != "X" && $validar != "O") {
             echo "Símbolo inválido\n";
         }
-    } while ($simboloValidar != "X" && $simboloValidar != "O");
-    return ($simboloValidar);
+    } while ($validar != "X" && $validar != "O");
+    return ($validar);
 }
 
 /**
@@ -243,10 +244,10 @@ function validarSimbolo(){
  
 function juegosGanados($colecJuegos)
 {
-    $cantidadDeJuegosGanadosTotales = 0;
-    for ($k = 0; $k < count($colecJuegos); $k++) {
-        if ($colecJuegos[$k]["puntosCruz"] != 1) {
-            $cantidadDeJuegosGanadosTotales++;
+    $juegosTotalesG = 0;
+    for ($c = 0; $c < count($colecJuegos); $c++) {
+        if ($colecJuegos[$c]["puntosCruz"] != 1) {
+            $juegosTotalesG++;
         }
     }
     return ($cantidadDeJuegosGanadosTotales);
@@ -263,19 +264,19 @@ function juegosGanados($colecJuegos)
  
 function juegoSimbolo($colecDeJuegos, $simbolo)
 {
-    $cantidadDeJuegosGanadosSimbolo = 0;
-    for ($z = 0; $z < count($colecDeJuegos); $z++) {
+    $cantJuegosSimboloG = 0;
+    for ($d = 0; $d < count($colecDeJuegos); $d++) {
         if ($simbolo == "X") {
-            if ($colecDeJuegos[$z]["puntosCruz"] > 1) {
-                $cantidadDeJuegosGanadosSimbolo++;
+            if ($colecDeJuegos[$d]["puntosCruz"] > 1) {
+                $cantJuegosSimboloG++;
             }
         } else {
-            if ($colecDeJuegos[$z]["puntosCirculo"] > 1) {
-                $cantidadDeJuegosGanadosSimbolo++;
+            if ($colecDeJuegos[$d]["puntosCirculo"] > 1) {
+                $cantJuegosSimboloG++;
             }
         }
     }
-    return ($cantidadDeJuegosGanadosSimbolo);
+    return ($juegosSimboloG);
 }
 
  /**
@@ -286,8 +287,8 @@ function juegoSimbolo($colecDeJuegos, $simbolo)
  */
 function ordenarJugadorO($coleccion){
     
-    uasort($coleccion, function($a,$b){
-        return strnatcmp($a["jugadorCirculo"], $b["jugadorCirculo"]);
+    uasort($coleccion, function($e,$f){
+        return strnatcmp($e["jugadorCirculo"], $f["jugadorCirculo"]);
     });
     print_r($coleccion);
 }
