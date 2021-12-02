@@ -5,7 +5,7 @@ include_once("tateti.php");
 /***** DATOS DE LOS INTEGRANTES *******/
 /**************************************/
 
-/* Saltos, Tomas. Legajo: .Carrera: Tecnicatura Universitaria en Desarrollo Web. */
+/* Saltos, Tomas. Legajo: .Carrera: Tecnicatura Universitaria en Desarrollo Web. correo electronico. usuario Github: */
 /* Rodriguez, Nicolas. Legajo: FAI-3704. Carrera: Tecnicatura Universitaria en Desarrollo Web. niko.0493@gmail.com. Usuario Github: nicolas-rodrigue */
 /* Valdebenito, brisa. Legajo: FAI-3781. Carrera: Tecnicatura Universitaria en Desarrollo Web. brisavaldebenito400@gmail.com . Usuario Github: Brisa-val */ 
 
@@ -46,48 +46,36 @@ function cargarJuegos()
 function seleccionarOpcion()
 {
     // mostrando el menu
-    echo "MENU DE OPCIONES:";
-    echo "   1) Jugar al tateti ";
-    echo "   2) Mostrar un juego";
-    echo "   3) Mostrar el primer juego ganador ";
-    echo "   4) Mostrar porcentaje de Juegos ganados";
-    echo "   5) Mostrar resumen de Jugador";
-    echo "   6) Mostrar listado de juegos Ordenado por jugador O";
-    echo "   7) Salir";
+    echo "MENU DE OPCIONES:\n";
+    echo "   1) Jugar al tateti \n";
+    echo "   2) Mostrar un juego \n";
+    echo "   3) Mostrar el primer juego ganador \n";
+    echo "   4) Mostrar porcentaje de Juegos ganados\n";
+    echo "   5) Mostrar resumen de Jugador\n";
+    echo "   6) Mostrar listado de juegos Ordenado por jugador O\n";
+    echo "   7) Salir\n";
 
     // obteniendo un valor valido de las opciones del menu
-    $numero = obtenerNumeroValidoMenu();
-    return $numero;
+    echo "Ingrese opcion: ";
+    $num = solicitarNumeroEntre(1, 7);
+    return $num;
 }
 
 /**
- * Explicacion 3- Punto 3
- * - Obtiene un numero valido entre 1 y 7 para el menu general.
- * @return int
+ * Solicita al usuario un número en el rango [$min,$max]
+ * @param int $min
+ * @param int $max
+ * @return int 
  */
-function obtenerNumeroValidoMenu()
+function solicitarNumero($min, $max)
 {
-    $valor = 0;
-    $isValid = false;
-    //ciclo iteractivo que se repetira hasta que el usuario ingrese un valor valido
-    do
-    {
-        echo "ingrese opcion: ";
-        $valor = trim(fgets(STDIN));
-        $isNumber = is_numeric($valor);
-        if ($isNumber)
-        {
-            $valor = (int) $valor;
-            if ($valor >= 1 && $valor <= 7){
-                $isValid = true;
-            }else{
-                echo "la opcion a elegir debe estar ser entre 1 y 7 inclusive .\n";
-            }
-        }else{
-            echo "El valor ingresado no es un numero .\n";
-        }
-    } while ($isValid);
-    return $valor;
+    //int $numero
+    $numero = trim(fgets(STDIN));
+    while (!is_int($numero) && !($numero >= $min && $numero <= $max)) {
+        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
+        $numero = trim(fgets(STDIN));
+    }
+    return $numero;
 }
 
 /**
@@ -326,11 +314,11 @@ do {
             break;
         case 2:
             echo "Ingrese numero de juego: ";
-            $numeroJuego = trim(fgets(STDIN));
-            datosDelJuego($juegosCargados, $numeroJuego);
+            $numeroJuego = solicitarNumeroEntre(1, count($juegosCargados));
+            datosDelJuego($juegosCargados, ($numeroJuego-1));
             break;
         case 3:
-            echo "Ingrese el nombre del jugador a buscar: ";
+            echo "Ingrese el nombre del jugador: ";
             $buscarJugador = trim(fgets(STDIN));
             $jugadorEnPartidas = indicePrimerJuegoGanado($juegosCargados, strtoupper($buscarJugador));
             if ($jugadorEnPartidas == -1) {
