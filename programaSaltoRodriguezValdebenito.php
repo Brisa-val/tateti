@@ -7,7 +7,9 @@ include_once("tateti.php");
 
 /* Saltos, Tomas. Legajo: .Carrera: Tecnicatura Universitaria en Desarrollo Web. correo electronico. usuario Github: */
 /* Rodriguez, Nicolas. Legajo: FAI-3704. Carrera: Tecnicatura Universitaria en Desarrollo Web. niko.0493@gmail.com. Usuario Github: nicolas-rodrigue */
+<<<<<<< Updated upstream:programaSaltoRodriguezValdebenito.php
 /* Valdebenito, brisa. Legajo: FAI-3781. Carrera: Tecnicatura Universitaria en Desarrollo Web. brisavaldebenito400@gmail.com . Usuario Github: Brisa-val */ 
+
 
 
 /**************************************/
