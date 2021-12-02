@@ -5,9 +5,8 @@ include_once("tateti.php");
 /***** DATOS DE LOS INTEGRANTES *******/
 /**************************************/
 
-/* Saltos, Tomas. Legajo: .Carrera: Tecnicatura Universitaria en Desarrollo Web. correo electronico. usuario Github: */
+/* Saltos, Tomas. Legajo FAI -3635: .Carrera: Tecnicatura Universitaria en Desarrollo Web. correo electronico. tomasagustinsalto@gmail.com usuario Github: tomassalto */
 /* Rodriguez, Nicolas. Legajo: FAI-3704. Carrera: Tecnicatura Universitaria en Desarrollo Web. niko.0493@gmail.com. Usuario Github: nicolas-rodrigue */
-<<<<<<< Updated upstream:programaSaltoRodriguezValdebenito.php
 /* Valdebenito, brisa. Legajo: FAI-3781. Carrera: Tecnicatura Universitaria en Desarrollo Web. brisavaldebenito400@gmail.com . Usuario Github: Brisa-val */ 
 
 
@@ -88,21 +87,21 @@ function solicitarNumero($min, $max)
  * @param $juegoIndice : int
  * @return void
  */
-function datosDelJuego($juegos, $juegoIndice)
+function datosDelJuego($juegosEjemplos,$num)
 {
     $resultado = "";
-    if ($juegos[$juegoIndice]["puntosCruz"] > $juegos[$juegoIndice]["puntosCirculo"]) {
+    if ($juegosEjemplos[$num]["puntosCruz"] > $juegosEjemplos[$num]["puntosCirculo"]) {
         $resultado = "GANO X";
-    } elseif ($juegos[$juegoIndice]["puntosCirculo"] < $juegos[$juegoIndice]["puntosCruz"]) {
-        $resultado = "GANO Y";
+    } elseif ($juegosEjemplos[$num]["puntosCirculo"] > $juegosEjemplos[$num]["puntosCruz"]) {
+        $resultado = "GANO O";
     } else {
         $resultado = "EMPATE";
     }
 
     echo "***************************\n";
-    echo "Juego TATETI: " . $juegoIndice . "(" . $resultado . ")\n";
-    echo "Jugador X: " . $juegos[$juegoIndice]["jugadorCruz"] . " obtuvo " . $juegos[$juegoIndice]["puntosCruz"] . " puntos\n";
-    echo "Jugador O: " . $juegos[$juegoIndice]["jugadorCirculo"] . " obtuvo " . $juegos[$juegoIndice]["puntosCirculo"] . " puntos\n";
+    echo "Juego TATETI: " . $num+1 . " (" . $resultado . ")\n";
+    echo "Jugador X: " . $juegosEjemplos[$num]["jugadorCruz"] . " obtuvo " . $juegosEjemplos[$num]["puntosCruz"] . " puntos\n";
+    echo "Jugador O: " . $juegosEjemplos[$num]["jugadorCirculo"] . " obtuvo " . $juegosEjemplos[$num]["puntosCirculo"] . " puntos\n";
     echo "***************************\n";
 }
 
@@ -163,8 +162,8 @@ function resumen($listadoJuegos, $nombreDelJugador)
     $auxNombre = "";
     $ganados = 0;
     $perdidos = 0;
-    $auxJuegosEmpatados = 0;
-    $untosAcumulados = 0;
+    $empatados = 0;
+    $puntosAcumulados = 0;
     $cantColeccionJuegos = count($listadoJuegos);
  
     for ($b = 0; $b < $cantColeccionJuegos; $b++) {
@@ -187,15 +186,15 @@ function resumen($listadoJuegos, $nombreDelJugador)
             $auxNombre = $nombreDelJugador;
  
             if ($listadoJuegos[$b]["puntosCruz"] < $listadoJuegos[$b]["puntosCirculo"]) {
-                $auxJuegosGanados = $auxJuegosGanados + 1;
-                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$b]["puntosCirculo"];
+                $ganados = $ganados + 1;
+                $puntosAcumulados = $puntosAcumulados + $listadoJuegos[$b]["puntosCirculo"];
             }
             if ($listadoJuegos[$b]["puntosCruz"] > $listadoJuegos[$b]["puntosCirculo"]) {
-                $auxJuegosPerdidos = $auxJuegosPerdidos + 1;
+                $perdidos = $perdidos + 1;
             }
             if ($listadoJuegos[$b]["puntosCruz"] == $listadoJuegos[$b]["puntosCirculo"]) {
-                $auxJuegosEmpatados = $auxJuegosEmpatados + 1;
-                $auxPuntosAcumulados = $auxPuntosAcumulados + $listadoJuegos[$b]["puntosCirculo"];
+                $empatados = $empatados + 1;
+                $puntosAcumulados = $puntosAcumulados + $listadoJuegos[$b]["puntosCirculo"];
             }
         }
     }
@@ -227,7 +226,7 @@ function validarSimbolo(){
     do {
         echo "Ingrese un símbolo X o O: ";
         $validar = strtoupper(trim(fgets(STDIN)));
-        if ($simboloValidar != "X" && $validar != "O") {
+        if ($validar != "X" && $validar != "O") {
             echo "Símbolo inválido\n";
         }
     } while ($validar != "X" && $validar != "O");
@@ -244,10 +243,10 @@ function validarSimbolo(){
  
 function juegosGanados($colecJuegos)
 {
-    $juegosTotalesG = 0;
+    $cantidadDeJuegosGanadosTotales = 0;
     for ($c = 0; $c < count($colecJuegos); $c++) {
         if ($colecJuegos[$c]["puntosCruz"] != 1) {
-            $juegosTotalesG++;
+            $cantidadDeJuegosGanadosTotales++;
         }
     }
     return ($cantidadDeJuegosGanadosTotales);
@@ -276,7 +275,7 @@ function juegoSimbolo($colecDeJuegos, $simbolo)
             }
         }
     }
-    return ($juegosSimboloG);
+    return ($cantJuegosSimboloG);
 }
 
  /**
@@ -313,6 +312,7 @@ do {
     switch ($opciones) {
         case 1:
             $jugar = jugar();
+            $impResultado = imprimirResultado($jugar);
             $juegosCargados = agregarJuego($juegosCargados, $jugar);
             break;
         case 2:
