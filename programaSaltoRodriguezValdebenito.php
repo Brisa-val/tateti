@@ -17,7 +17,7 @@ include_once("tateti.php");
 
 /**
  * Explicacion 3- Punto 1
- * - Se genera 10 juegos resultados 
+ * - Se genera 10 juegos resultados y retorna el juego completo.
  * @return array 
  */
 function cargarJuegos()
