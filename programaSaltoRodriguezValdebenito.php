@@ -147,8 +147,8 @@ function primerJuegoGanado($juegos, $jugador)
 function verificador($juegosEncontrados, $jugadorBuscado) {
     $cantidadJuegos = count($juegosEncontrados);
     $jugadorEnPartidas = -1;
-    for ($x=0; $x < $cantidadJuegos; $x++) {
-        if ($juegosEncontrados[$x]["jugadorCruz"] == $jugadorBuscado || $juegosEncontrados[$x]["jugadorCirculo"] == $jugadorBuscado) {
+    for ($g=0; $g < $cantidadJuegos; $g++) {
+        if ($juegosEncontrados[$g]["jugadorCruz"] == $jugadorBuscado || $juegosEncontrados[$g]["jugadorCirculo"] == $jugadorBuscado) {
             $jugadorEnPartidas = 1;
         }
     }
