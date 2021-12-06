@@ -109,27 +109,27 @@ function agregarJuego($coleccionJuegos,$juego)
 
 /**
  * EXPLICACION 3- Punto 6
- * modulo que Dada una coleccion de juegos y nombre de un jugador, retorna el indice
- * del primer juego ganado, caso contrario, retorna -1
- * @param array $conjuntoDeJuegos
- * @param array $nombreJugador
+ * Funcion que toma una coleccion de juegos y nombre de un jugador, 
+ * retorna el indice del primer juego ganado, caso contrario, retorna -1
+ * @param array $juegos
+ * @param array $jugador
  * @return int
  *
  */
-function primerJuegoGanado($conjuntoDeJuegos, $nombreJugador)
+function primerJuegoGanado($juegos, $jugador)
 {
     $indice = -1;
-    $cantColJuegos = count($conjuntoDeJuegos);
+    $cantColJuegos = count($juegos);
     $a = 0;
     $encontro = FALSE;
     while ($a < $cantColJuegos && !$encontro) {
-        if ($conjuntoDeJuegos[$a]["jugadorCruz"] == $nombreJugador) {
-            if ($conjuntoDeJuegos[$a]["puntosCruz"] > $conjuntoDeJuegos[$a]["puntosCirculo"]) {
+        if ($juegos[$a]["jugadorCruz"] == $jugador) {
+            if ($juegos[$a]["puntosCruz"] > $juegos[$a]["puntosCirculo"]) {
                 $encontro = true;
                 $indice = $a;
             }
-        } elseif ($conjuntoDeJuegos[$a]["jugadorCirculo"] == $nombreJugador) {
-            if ($conjuntoDeJuegos[$a]["puntosCirculo"] > $conjuntoDeJuegos[$a]["puntosCruz"]) {
+        } elseif ($juegos[$a]["jugadorCirculo"] == $jugador) {
+            if ($juegos[$a]["puntosCirculo"] > $juegos[$a]["puntosCruz"]) {
                 $encontro = true;
                 $indice = $a;
             }
@@ -140,16 +140,15 @@ function primerJuegoGanado($conjuntoDeJuegos, $nombreJugador)
 }
 
 /**
- * Módulo verificador que busca un jugador por el nombre ingresado en la colección de juegos, en caso de estar retorna 1, en caso de no retorna -1
- * @param array $juegosCargados
- * @param string $jugadorNombre
+ * Módulo verificador que busca un jugador por el nombre ingresado en la colección de juegos
+ * @param string $jugadorBuscado
  * @return int
  */
-function verificador($juegosCargados, $jugadorNombre) {
-    $cantidadJuegos = count($juegosCargados);
+function verificador($juegosEncontrados, $jugadorBuscado) {
+    $cantidadJuegos = count($juegosEncontrados);
     $jugadorEnPartidas = -1;
     for ($x=0; $x < $cantidadJuegos; $x++) {
-        if ($juegosCargados[$x]["jugadorCruz"] == $jugadorNombre || $juegosCargados[$x]["jugadorCirculo"] == $jugadorNombre) {
+        if ($juegosEncontrados[$x]["jugadorCruz"] == $jugadorBuscado || $juegosEncontrados[$x]["jugadorCirculo"] == $jugadorBuscado) {
             $jugadorEnPartidas = 1;
         }
     }
@@ -312,11 +311,11 @@ function ordenarJugadorO($coleccion){
 //Declaración de variables:
 // int , $numeroJuego, juegoABuscar, jugadorEnPartidas, primerJuegoGanado, juegosGanados, totalDeJuegos, jugadorExiste
 // float $porcentaje
-// ARRAY $jugar, juegosCargados
+// ARRAY $jugar, juegosEncontrados
 // string $buscarJugador, simbolo, nombre
 
 //Inicialización de variables:
-$juegosCargados= cargarJuegos();
+$juegosEncontrados= cargarJuegos();
 
 //Proceso:
 
@@ -326,23 +325,23 @@ do {
         case 1:
             $jugar = jugar();
             $impResultado = imprimirResultado($jugar);
-            $juegosCargados = agregarJuego($juegosCargados, $jugar);
+            $juegosEncontrados = agregarJuego($juegosEncontrados, $jugar);
             break;
         case 2:
             echo "Ingrese numero de juego: ";
-            $numeroJuego = solicitarNumeroEntre(1, count($juegosCargados));
-            datosDelJuego($juegosCargados, ($numeroJuego-1));
+            $numeroJuego = solicitarNumeroEntre(1, count($juegosEncontrados));
+            datosDelJuego($juegosEncontrados, ($numeroJuego-1));
             break;
         case 3:
             echo "Ingrese el nombre del jugador a buscar: ";
             $buscarJugador = trim(fgets(STDIN));
-            $jugadorEnPartidas = verificador($juegosCargados, strtoupper($buscarJugador));
+            $jugadorEnPartidas = verificador($juegosEncontrados, strtoupper($buscarJugador));
             if ($jugadorEnPartidas == 1) {
-                $indiceDelPrimerJuegoGanado = primerJuegoGanado($juegosCargados, strtoupper($buscarJugador));
+                $indiceDelPrimerJuegoGanado = primerJuegoGanado($juegosEncontrados, strtoupper($buscarJugador));
                 if ($indiceDelPrimerJuegoGanado == -1) {
                     echo "El jugador " . $buscarJugador . " no ganó ningún juego\n";
                 }else {
-                    datosDelJuego($juegosCargados, $indiceDelPrimerJuegoGanado);
+                    datosDelJuego($juegosEncontrados, $indiceDelPrimerJuegoGanado);
                 }
             }else {
                 echo "El jugador " . $buscarJugador . " no participó de ningún juego\n";
@@ -350,23 +349,23 @@ do {
             break;
         case 4:
             $simbolo=validarSimbolo();
-            $juegosGanados=juegoSimbolo ($juegosCargados,$simbolo);
-            $totalDeJuegos=juegosGanados($juegosCargados);
+            $juegosGanados=juegoSimbolo ($juegosEncontrados,$simbolo);
+            $totalDeJuegos=juegosGanados($juegosEncontrados);
             $porcentaje=($juegosGanados/$totalDeJuegos)*100;
             echo $simbolo." ganó el ".$porcentaje."% de juegos ganados.\n";
             break;
         case 5:
             echo "Ingrese el nombre de un jugador: ";
             $nombre = trim(fgets(STDIN));
-            $jugadorExiste = primerJuegoGanado($juegosCargados, strtoupper($nombre));
+            $jugadorExiste = primerJuegoGanado($juegosEncontrados, strtoupper($nombre));
             if ($jugadorExiste == 1) {
-                resumen($juegosCargados,strtoupper($nombre));
+                resumen($juegosEncontrados,strtoupper($nombre));
             }else {
                 echo "El jugador ". $nombre . " no jugó ninguna partida.\n";
             }
             break;
         case 6:
-            ordenarJugadorO($juegosCargados);
+            ordenarJugadorO($juegosEncontrados);
             break;
          case 7:
             echo "
