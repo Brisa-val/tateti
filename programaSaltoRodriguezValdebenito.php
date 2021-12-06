@@ -17,7 +17,7 @@ include_once("tateti.php");
 
 /**
  * Explicacion 3- Punto 1
- * - Se genera 10 juegos resultados y retorna el juego completo.
+ * - Se genera 10 juegos resultados 
  * @return array 
  */
 function cargarJuegos()
@@ -33,6 +33,20 @@ function cargarJuegos()
     $juegosEjemplos[7] = ["jugadorCruz" => "SEBA", "jugadorCirculo" => "ANA", "puntosCruz" => 1, "puntosCirculo" => 1];
     $juegosEjemplos[8] = ["jugadorCruz" => "TOMY", "jugadorCirculo" => "MARIO", "puntosCruz" => 0, "puntosCirculo" => 1];
     $juegosEjemplos[9] = ["jugadorCruz" => "SEBA", "jugadorCirculo" => "LUIS", "puntosCruz" => 0, "puntosCirculo" => 5];
+    $juegosEjemplos = [];
+
+$jg1 = ["jugadorCruz" => "AMARILIS", "jugadorCirculo" => "MILOS",    "puntosCruz" => 1, "puntosCirculo" => 1];
+$jg2 = ["jugadorCruz" => "ZENDA",    "jugadorCirculo" => "AMARILIS", "puntosCruz" => 3, "puntosCirculo" => 0];
+$jg3 = ["jugadorCruz" => "ZENDA",    "jugadorCirculo" => "MILOS",    "puntosCruz" => 0, "puntosCirculo" => 4];
+$jg4 = ["jugadorCruz" => "CALIXTO",  "jugadorCirculo" => "TRUMAN",   "puntosCruz" => 1, "puntosCirculo" => 1];
+$jg5 = ["jugadorCruz" => "AMARILIS", "jugadorCirculo" => "MILOS",    "puntosCruz" => 5, "puntosCirculo" => 0];
+$jg6 = ["jugadorCruz" => "FEDORA",   "jugadorCirculo" => "CALIXTO",  "puntosCruz" => 0, "puntosCirculo" => 3];
+$jg7 = ["jugadorCruz" => "TRUMAN",   "jugadorCirculo" => "AMARILIS", "puntosCruz" => 4, "puntosCirculo" => 0];
+$jg8 = ["jugadorCruz" => "CALIXTO",  "jugadorCirculo" => "TRUMAN",   "puntosCruz" => 1, "puntosCirculo" => 1];
+$jg9 = ["jugadorCruz" => "TRUMAN",   "jugadorCirculo" => "FEDORA",   "puntosCruz" => 2, "puntosCirculo" => 0];
+$jg10= ["jugadorCruz" => "MILOS",    "jugadorCirculo" => "ZENDA",   "puntosCruz" => 1, "puntosCirculo" => 1];
+
+array_push($juegosEjemplos, $jg1, $jg2, $jg3, $jg4, $jg5, $jg6, $jg7, $jg8, $jg9, $jg10);
 
     return $juegosEjemplos;
 }
@@ -122,25 +136,38 @@ function agregarJuego($coleccionJuegos,$juego)
     return $coleccionJuegos;
 }
 
- /**
+/**
  * EXPLICACION 3- Punto 6
- * - Se obtiene el primer juego ganado de un jugador
- * @param  array $juegos: arreglo indexado que contiene una estructura asociativa -> [["jugadorCruz" => "", "jugadorCirculo" => "", "puntosCruz" => 0, "puntosCirculo" => 0], n]
- * @param string $jugador
+ * modulo que Dada una coleccion de juegos y nombre de un jugador, retorna el indice
+ * del primer juego ganado, caso contrario, retorna -1
+ * @param array $conjuntoDeJuegos
+ * @param array $nombreJugador
  * @return int
+ *
  */
-function indicePrimerJuegoGanado($juegos, $jugador)
+function indicePrimerJuegoGanado($conjuntoDeJuegos, $nombreJugador)
 {
-    $cantidadJuegos = count($juegos);
-    $jugadorEncontrado = -1;
-    for ($a=0; $a < $cantidadJuegos; $a++) {
-        if ($juegos[$a]["jugadorCruz"] == $jugador || $juegos[$a]["jugadorCirculo"] == $jugador) {
-            $jugadorEncontrado = 1;
+    $indice = -1;
+    $cantColJuegos = count($conjuntoDeJuegos);
+    $i = 0;
+    $encontro = FALSE;
+    while ($i < $cantColJuegos && !$encontro) {
+        if ($conjuntoDeJuegos[$i]["jugadorCruz"] == $nombreJugador) {
+            if ($conjuntoDeJuegos[$i]["puntosCruz"] > $conjuntoDeJuegos[$i]["puntosCirculo"]) {
+                $encontro = true;
+                $indice = $i;
+            }
+        } elseif ($conjuntoDeJuegos[$i]["jugadorCirculo"] == $nombreJugador) {
+            if ($conjuntoDeJuegos[$i]["puntosCirculo"] > $conjuntoDeJuegos[$i]["puntosCruz"]) {
+                $encontro = true;
+                $indice = $i;
+            }
         }
+        $i++;
     }
-    return($jugadorEncontrado);
+    return $indice;
 }
- 
+
 /**
  * EXPLICACION 3- Punto 7
  * -Dada una coleccion de juegos y el nombre de un jugador
@@ -148,7 +175,6 @@ function indicePrimerJuegoGanado($juegos, $jugador)
  * @param array $listadoJuegos
  * @param array $nombreDelJugador
  * @return array
- *
  */
 function resumen($listadoJuegos, $nombreDelJugador)
 {
@@ -323,11 +349,19 @@ do {
         case 3:
             echo "Ingrese el nombre del jugador: ";
             $buscarJugador = trim(fgets(STDIN));
-            $jugadorEnPartidas = indicePrimerJuegoGanado($juegosCargados, strtoupper($buscarJugador));
-            if ($jugadorEnPartidas == -1) {
+            $cantidadJuegos = count($juegosCargados);
+            $jugadorEncontrado = -1;
+            for ($x=0; $x < $cantidadJuegos; $x++) {
+                if ($juegosCargados[$x]["jugadorCruz"] == $buscarJugador || $juegosCargados[$x]["jugadorCirculo"] == $buscarJugador) {
+                    $jugadorEncontrado = 1;
+                }
+            }
+           
+            //$jugadorEncontrado = indicePrimerJuegoGanado($juegosCargados, strtoupper($buscarJugador));
+            if ($jugadorEncontrado == -1) {
                 echo "El jugador " . $buscarJugador . " no ganó ningún juego\n";
-            }elseif ($jugadorEnPartidas == 1) {
-                    datosDelJuego($juegosCargados, $jugadorEnPartidas);
+            }elseif ($jugadorEncontrado == 1) {
+                    datosDelJuego($juegosCargados, $jugadorEncontrado);
             }else {
                 echo "El jugador " . $buscarJugador . " no participó de ningún juego\n";
             }
