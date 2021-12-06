@@ -33,20 +33,6 @@ function cargarJuegos()
     $juegosEjemplos[7] = ["jugadorCruz" => "SEBA", "jugadorCirculo" => "ANA", "puntosCruz" => 1, "puntosCirculo" => 1];
     $juegosEjemplos[8] = ["jugadorCruz" => "TOMY", "jugadorCirculo" => "MARIO", "puntosCruz" => 0, "puntosCirculo" => 1];
     $juegosEjemplos[9] = ["jugadorCruz" => "SEBA", "jugadorCirculo" => "LUIS", "puntosCruz" => 0, "puntosCirculo" => 5];
-    $juegosEjemplos = [];
-
-$jg1 = ["jugadorCruz" => "AMARILIS", "jugadorCirculo" => "MILOS",    "puntosCruz" => 1, "puntosCirculo" => 1];
-$jg2 = ["jugadorCruz" => "ZENDA",    "jugadorCirculo" => "AMARILIS", "puntosCruz" => 3, "puntosCirculo" => 0];
-$jg3 = ["jugadorCruz" => "ZENDA",    "jugadorCirculo" => "MILOS",    "puntosCruz" => 0, "puntosCirculo" => 4];
-$jg4 = ["jugadorCruz" => "CALIXTO",  "jugadorCirculo" => "TRUMAN",   "puntosCruz" => 1, "puntosCirculo" => 1];
-$jg5 = ["jugadorCruz" => "AMARILIS", "jugadorCirculo" => "MILOS",    "puntosCruz" => 5, "puntosCirculo" => 0];
-$jg6 = ["jugadorCruz" => "FEDORA",   "jugadorCirculo" => "CALIXTO",  "puntosCruz" => 0, "puntosCirculo" => 3];
-$jg7 = ["jugadorCruz" => "TRUMAN",   "jugadorCirculo" => "AMARILIS", "puntosCruz" => 4, "puntosCirculo" => 0];
-$jg8 = ["jugadorCruz" => "CALIXTO",  "jugadorCirculo" => "TRUMAN",   "puntosCruz" => 1, "puntosCirculo" => 1];
-$jg9 = ["jugadorCruz" => "TRUMAN",   "jugadorCirculo" => "FEDORA",   "puntosCruz" => 2, "puntosCirculo" => 0];
-$jg10= ["jugadorCruz" => "MILOS",    "jugadorCirculo" => "ZENDA",   "puntosCruz" => 1, "puntosCirculo" => 1];
-
-array_push($juegosEjemplos, $jg1, $jg2, $jg3, $jg4, $jg5, $jg6, $jg7, $jg8, $jg9, $jg10);
 
     return $juegosEjemplos;
 }
@@ -76,23 +62,8 @@ function seleccionarOpcion()
     return $num;
 }
 
-/**
- * Explicacion 3- Punto 3
- * Solicita al usuario un número en el rango [$min,$max]
- * @param int $min
- * @param int $max
- * @return int 
- */
-function solicitarNumero($min, $max)
-{
-    //int $numero
-    $numero = trim(fgets(STDIN));
-    while (!is_int($numero) && !($numero >= $min && $numero <= $max)) {
-        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
-        $numero = trim(fgets(STDIN));
-    }
-    return $numero;
-}
+//Explicacion 3- Punto 3
+// funcion soliciteNumeroEntre($min,$max) se encuentra en el archivo tateti
 
 /**
  * Explicacion 3- Punto 4
@@ -145,29 +116,45 @@ function agregarJuego($coleccionJuegos,$juego)
  * @return int
  *
  */
-function indicePrimerJuegoGanado($conjuntoDeJuegos, $nombreJugador)
+function primerJuegoGanado($conjuntoDeJuegos, $nombreJugador)
 {
     $indice = -1;
     $cantColJuegos = count($conjuntoDeJuegos);
-    $i = 0;
+    $a = 0;
     $encontro = FALSE;
-    while ($i < $cantColJuegos && !$encontro) {
-        if ($conjuntoDeJuegos[$i]["jugadorCruz"] == $nombreJugador) {
-            if ($conjuntoDeJuegos[$i]["puntosCruz"] > $conjuntoDeJuegos[$i]["puntosCirculo"]) {
+    while ($a < $cantColJuegos && !$encontro) {
+        if ($conjuntoDeJuegos[$a]["jugadorCruz"] == $nombreJugador) {
+            if ($conjuntoDeJuegos[$a]["puntosCruz"] > $conjuntoDeJuegos[$a]["puntosCirculo"]) {
                 $encontro = true;
-                $indice = $i;
+                $indice = $a;
             }
-        } elseif ($conjuntoDeJuegos[$i]["jugadorCirculo"] == $nombreJugador) {
-            if ($conjuntoDeJuegos[$i]["puntosCirculo"] > $conjuntoDeJuegos[$i]["puntosCruz"]) {
+        } elseif ($conjuntoDeJuegos[$a]["jugadorCirculo"] == $nombreJugador) {
+            if ($conjuntoDeJuegos[$a]["puntosCirculo"] > $conjuntoDeJuegos[$a]["puntosCruz"]) {
                 $encontro = true;
-                $indice = $i;
+                $indice = $a;
             }
         }
-        $i++;
+        $a++;
     }
     return $indice;
 }
 
+/**
+ * Módulo verificador que busca un jugador por el nombre ingresado en la colección de juegos, en caso de estar retorna 1, en caso de no retorna -1
+ * @param array $juegosCargados
+ * @param string $jugadorNombre
+ * @return int
+ */
+function verificador($juegosCargados, $jugadorNombre) {
+    $cantidadJuegos = count($juegosCargados);
+    $jugadorEnPartidas = -1;
+    for ($x=0; $x < $cantidadJuegos; $x++) {
+        if ($juegosCargados[$x]["jugadorCruz"] == $jugadorNombre || $juegosCargados[$x]["jugadorCirculo"] == $jugadorNombre) {
+            $jugadorEnPartidas = 1;
+        }
+    }
+    return($jugadorEnPartidas);
+}
 /**
  * EXPLICACION 3- Punto 7
  * -Dada una coleccion de juegos y el nombre de un jugador
@@ -347,21 +334,16 @@ do {
             datosDelJuego($juegosCargados, ($numeroJuego-1));
             break;
         case 3:
-            echo "Ingrese el nombre del jugador: ";
+            echo "Ingrese el nombre del jugador a buscar: ";
             $buscarJugador = trim(fgets(STDIN));
-            $cantidadJuegos = count($juegosCargados);
-            $jugadorEncontrado = -1;
-            for ($x=0; $x < $cantidadJuegos; $x++) {
-                if ($juegosCargados[$x]["jugadorCruz"] == $buscarJugador || $juegosCargados[$x]["jugadorCirculo"] == $buscarJugador) {
-                    $jugadorEncontrado = 1;
+            $jugadorEnPartidas = verificador($juegosCargados, strtoupper($buscarJugador));
+            if ($jugadorEnPartidas == 1) {
+                $indiceDelPrimerJuegoGanado = primerJuegoGanado($juegosCargados, strtoupper($buscarJugador));
+                if ($indiceDelPrimerJuegoGanado == -1) {
+                    echo "El jugador " . $buscarJugador . " no ganó ningún juego\n";
+                }else {
+                    datosDelJuego($juegosCargados, $indiceDelPrimerJuegoGanado);
                 }
-            }
-           
-            //$jugadorEncontrado = indicePrimerJuegoGanado($juegosCargados, strtoupper($buscarJugador));
-            if ($jugadorEncontrado == -1) {
-                echo "El jugador " . $buscarJugador . " no ganó ningún juego\n";
-            }elseif ($jugadorEncontrado == 1) {
-                    datosDelJuego($juegosCargados, $jugadorEncontrado);
             }else {
                 echo "El jugador " . $buscarJugador . " no participó de ningún juego\n";
             }
@@ -376,7 +358,7 @@ do {
         case 5:
             echo "Ingrese el nombre de un jugador: ";
             $nombre = trim(fgets(STDIN));
-            $jugadorExiste = indicePrimerJuegoGanado($juegosCargados, strtoupper($nombre));
+            $jugadorExiste = primerJuegoGanado($juegosCargados, strtoupper($nombre));
             if ($jugadorExiste == 1) {
                 resumen($juegosCargados,strtoupper($nombre));
             }else {
